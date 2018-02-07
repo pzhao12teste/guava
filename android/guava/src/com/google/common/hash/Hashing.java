@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.Beta;
-import com.google.errorprone.annotations.Immutable;
+import com.google.common.base.Supplier;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -385,8 +385,7 @@ public final class Hashing {
     return ChecksumType.ADLER_32.hashFunction;
   }
 
-  @Immutable
-  enum ChecksumType implements ImmutableSupplier<Checksum> {
+  enum ChecksumType implements Supplier<Checksum> {
     CRC_32("Hashing.crc32()") {
       @Override
       public Checksum get() {

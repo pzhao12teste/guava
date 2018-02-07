@@ -30,6 +30,9 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.Iterables;
 import com.google.common.testing.NullPointerTester;
+import java.security.Permission;
+import java.security.Policy;
+import java.security.ProtectionDomain;
 import java.util.List;
 import junit.framework.TestCase;
 
@@ -745,6 +748,14 @@ public class ThrowablesTest extends TestCase {
 
     e.setStackTrace(new StackTraceElement[0]);
     assertThat(lazyStackTrace(e)).isEmpty();
+  }
+
+  @GwtIncompatible // used only by GwtIncompatible code
+  private static class AllowSettingSecurityManagerPolicy extends Policy {
+    @Override
+    public boolean implies(ProtectionDomain pd, Permission perm) {
+      return true;
+    }
   }
 
   @GwtIncompatible // NullPointerTester

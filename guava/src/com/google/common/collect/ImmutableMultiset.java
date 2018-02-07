@@ -541,7 +541,9 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     public Builder<E> addAll(Iterable<? extends E> elements) {
       if (elements instanceof Multiset) {
         Multiset<? extends E> multiset = Multisets.cast(elements);
-        multiset.forEachEntry((e, n) -> contents.add(checkNotNull(e), n));
+        for (Entry<? extends E> entry : multiset.entrySet()) {
+          addCopies(entry.getElement(), entry.getCount());
+        }
       } else {
         super.addAll(elements);
       }

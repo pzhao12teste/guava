@@ -159,7 +159,7 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
     }
 
     @Override
-    String toPendingString() {
+    public String toString() {
       return callable.toString();
     }
   }
@@ -185,7 +185,7 @@ final class CombinedFuture<V> extends AggregateFuture<Object, V> {
     }
 
     @Override
-    String toPendingString() {
+    public String toString() {
       return callable.toString();
     }
   }

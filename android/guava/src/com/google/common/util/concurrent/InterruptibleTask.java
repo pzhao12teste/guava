@@ -112,21 +112,5 @@ abstract class InterruptibleTask<T> extends AtomicReference<Runnable> implements
   }
 
   @Override
-  public final String toString() {
-    Runnable state = get();
-    final String result;
-    if (state == DONE) {
-      result = "running=[DONE]";
-    } else if (state == INTERRUPTING) {
-      result = "running=[INTERRUPTED]";
-    } else if (state instanceof Thread) {
-      // getName is final on Thread, no need to worry about exceptions
-      result = "running=[RUNNING ON " + ((Thread) state).getName() + "]";
-    } else {
-      result = "running=[NOT STARTED YET]";
-    }
-    return result + ", " + toPendingString();
-  }
-
-  abstract String toPendingString();
+  public abstract String toString();
 }

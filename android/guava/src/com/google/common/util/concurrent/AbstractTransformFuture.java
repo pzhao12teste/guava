@@ -180,15 +180,10 @@ abstract class AbstractTransformFuture<I, O, F, T> extends AbstractFuture.Truste
   protected String pendingToString() {
     ListenableFuture<? extends I> localInputFuture = inputFuture;
     F localFunction = function;
-    String superString = super.pendingToString();
-    String resultString = "";
-    if (localInputFuture != null) {
-      resultString = "inputFuture=[" + localInputFuture + "], ";
-    }
-    if (localFunction != null) {
-      return resultString + "function=[" + localFunction + "]";
-    } else if (superString != null) {
-      return resultString + superString;
+    if (localInputFuture != null && localFunction != null) {
+      return "inputFuture=[" + localInputFuture + "], function=[" + localFunction + "]";
+    } else if (localFunction != null) {
+      return "function=[" + localFunction + "]";
     }
     return null;
   }
