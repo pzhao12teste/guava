@@ -18,6 +18,7 @@
     <test.include>%regex[.*.class]</test.include>
     <truth.version>0.35</truth.version>
     <animal.sniffer.version>1.14</animal.sniffer.version>
+    <maven-javadoc-plugin.version>3.0.0</maven-javadoc-plugin.version>
   <gib.commitRange>${env.TRAVIS_COMMIT_RANGE}</gib.commitRange>
         <gib.enabled>true</gib.enabled>
         <gib.useEkstazi>true</gib.useEkstazi>
@@ -88,7 +89,12 @@
         </excludes>
       </testResource>
     </testResources>
-
+    <plugins>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>${maven-javadoc-plugin.version}</version>
+      </plugin>
+    </plugins>
     <pluginManagement>
       <plugins>
         <plugin>
@@ -149,7 +155,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.0.0</version>
+          <version>${maven-javadoc-plugin.version}</version>
           <configuration>
             <quiet>true</quiet>
             <notimestamp>true</notimestamp>
