@@ -275,7 +275,7 @@ public abstract class ForwardingMultiset<E> extends ForwardingCollection<E> impl
    * @since 7.0
    */
   protected int standardSize() {
-    return Multisets.linearTimeSizeImpl(this);
+    return Multisets.sizeImpl(this);
   }
 
   /**

@@ -30,7 +30,6 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.function.ObjIntConsumer;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -274,16 +273,6 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
         };
       }
     };
-  }
-
-  @Override
-  public void forEachEntry(ObjIntConsumer<? super E> action) {
-    checkNotNull(action);
-    for (int i = 0; i < enumConstants.length; i++) {
-      if (counts[i] > 0) {
-        action.accept(enumConstants[i], counts[i]);
-      }
-    }
   }
 
   @Override

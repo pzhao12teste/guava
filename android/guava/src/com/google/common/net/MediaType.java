@@ -628,7 +628,7 @@ public final class MediaType {
    * removed.
    *
    * @throws IllegalArgumentException if either {@code attribute} or {@code values} is invalid
-   * @since 24.0
+   * @since NEXT
    */
   public MediaType withParameters(String attribute, Iterable<String> values) {
     checkNotNull(attribute);

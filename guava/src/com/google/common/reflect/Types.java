@@ -166,7 +166,11 @@ final class Types {
   /**
    * Returns human readable string representation of {@code type}.
    *
-   * <p>The format is subject to change.
+   * <ul>
+   *   <li>For array type {@code Foo[]}, {@code "com.mypackage.Foo[]"} are returned.
+   *   <li>For any class, {@code theClass.getName()} are returned.
+   *   <li>For all other types, {@code type.toString()} are returned.
+   * </ul>
    */
   static String toString(Type type) {
     return (type instanceof Class) ? ((Class<?>) type).getName() : type.toString();

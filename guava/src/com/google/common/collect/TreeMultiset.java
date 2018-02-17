@@ -17,7 +17,6 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
@@ -35,7 +34,6 @@ import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import java.util.function.ObjIntConsumer;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /**
@@ -332,30 +330,6 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
     return result[0] == oldCount;
   }
 
-  @Override
-  public void clear() {
-    if (!range.hasLowerBound() && !range.hasUpperBound()) {
-      // We can do this in O(n) rather than removing one by one, which could force rebalancing.
-      for (AvlNode<E> current = header.succ; current != header; ) {
-        AvlNode<E> next = current.succ;
-
-        current.elemCount = 0;
-        // Also clear these fields so that one deleted Entry doesn't retain all elements.
-        current.left = null;
-        current.right = null;
-        current.pred = null;
-        current.succ = null;
-
-        current = next;
-      }
-      successor(header, header);
-      rootReference.clear();
-    } else {
-      // TODO(cpovirk): Perhaps we can optimize in this case, too?
-      Iterators.clear(entryIterator());
-    }
-  }
-
   private Entry<E> wrapEntry(final AvlNode<E> baseEntry) {
     return new Multisets.AbstractEntry<E>() {
       @Override
@@ -512,16 +486,6 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
   }
 
   @Override
-  public void forEachEntry(ObjIntConsumer<? super E> action) {
-    checkNotNull(action);
-    for (AvlNode<E> node = firstNode();
-        node != header && node != null && !range.tooHigh(node.getElement());
-        node = node.succ) {
-      action.accept(node.getElement(), node.getCount());
-    }
-  }
-
-  @Override
   public Iterator<E> iterator() {
     return Multisets.iteratorImpl(this);
   }
@@ -560,13 +524,9 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
       }
       value = newValue;
     }
-
-    void clear() {
-      value = null;
-    }
   }
 
-  private static final class AvlNode<E> {
+  private static final class AvlNode<E> extends Multisets.AbstractEntry<E> {
     @NullableDecl private final E elem;
 
     // elemCount is 0 iff this node has been deleted.
@@ -972,11 +932,13 @@ public final class TreeMultiset<E> extends AbstractSortedMultiset<E> implements 
       }
     }
 
-    E getElement() {
+    @Override
+    public E getElement() {
       return elem;
     }
 
-    int getCount() {
+    @Override
+    public int getCount() {
       return elemCount;
     }
 

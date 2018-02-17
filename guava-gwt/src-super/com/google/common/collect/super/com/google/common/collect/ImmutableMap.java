@@ -195,10 +195,6 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       }
       return fromEntryList(entries);
     }
-
-    ImmutableMap<K, V> buildJdkBacked() {
-      return build();
-    }
   }
 
   static <K, V> ImmutableMap<K, V> fromEntryList(
